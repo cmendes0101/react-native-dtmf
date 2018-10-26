@@ -20,6 +20,14 @@ dtmf.startTone(dtmf.DTMF_2);
 setTimeout(() => {
   dtmf.stopTone();
 }, 300);
+
+// Start playing ringing
+dtmf.startRinging(dtmf.RING_USA, 30);
+
+// 30s later stop the ringing tone.
+setTimeout(() => {
+  dtmf.stopRinging();
+}, 30000);
 ```
 ### API
 
@@ -28,7 +36,8 @@ Function | Description
 <nobr>**startTone**(*tone*)</nobr> | This method starts the playback of a tone of the specified type for a maximum of 5 seconds.
 <nobr>**playTone**(*tone*,&#160;*durationMs*)</nobr> | This method starts the playback of a tone of the specified type for the specified duration.
 <nobr>**stopTone**()</nobr> | This method stops the tone currently playing.
-
+<nobr>**startRinging**(*tone*)</nobr> | This method starts the playback of ringing of the specified type for the specified duration.
+<nobr>**stopRinging**()</nobr> | This method stops the ringing tone.
 ### Constants
 
 | Constant | Digit | Tone             |
@@ -49,6 +58,7 @@ Function | Description
 | DTMF_D   | D     | 941 Hz + 1633 Hz |
 | DTMF_S   | *     | 941 Hz + 1209 Hz |
 | DTMF_P   | #     | 941 Hz + 1477 Hz |
+| RING_USA   | N/A     | 440 Hz + 480 Hz |
 
 ## Manual installation
 
