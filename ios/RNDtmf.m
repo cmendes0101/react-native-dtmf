@@ -29,6 +29,7 @@ RCT_EXPORT_MODULE()
     @"DTMF_B": [NSNumber numberWithInteger:DTMF_B],
     @"DTMF_C": [NSNumber numberWithInteger:DTMF_C],
     @"DTMF_D": [NSNumber numberWithInteger:DTMF_D],
+    @"RING_USA": [NSNumber numberWithInteger:RING_USA],
   };
 }
 
@@ -42,6 +43,14 @@ RCT_EXPORT_METHOD(playTone:(NSInteger)tone durationMs:(NSInteger)duration) {
 
 RCT_EXPORT_METHOD(stopTone) {
   stopTone();
+}
+
+RCT_EXPORT_METHOD(startRinging:(NSInteger)tone durationMs:(NSInteger)duration) {
+  startRinging((int)tone, (int)duration);
+}
+
+RCT_EXPORT_METHOD(stopRinging) {
+  stopRinging();
 }
 
 @end

@@ -12,6 +12,7 @@ static AudioUnit toneUnit;
 static double sampleRate = 8000.0;
 static int freq1 = 1;
 static int freq2 = 1;
+static Boolean playRinging = true;
 
 static double sineMultiplierPerSample, sineMultiplierPerSample_2nd;
 static double samplesPerSine, samplesPerSine_2nd;
@@ -29,6 +30,7 @@ void startTone(int dtmf, int durationMs) {
     case DTMF_4: case DTMF_5: case DTMF_6: case DTMF_B: freq1 =  770; break;
     case DTMF_7: case DTMF_8: case DTMF_9: case DTMF_C: freq1 =  852; break;
     case DTMF_S: case DTMF_0: case DTMF_P: case DTMF_D: freq1 =  941; break;
+    case RING_USA: freq1 = 440; break;
   }
   switch(dtmf)
   {
@@ -36,6 +38,7 @@ void startTone(int dtmf, int durationMs) {
     case DTMF_2: case DTMF_5: case DTMF_8: case DTMF_0: freq2 =  1336; break;
     case DTMF_3: case DTMF_6: case DTMF_9: case DTMF_P: freq2 =  1477; break;
     case DTMF_A: case DTMF_B: case DTMF_C: case DTMF_D: freq2 =  1633; break;
+    case RING_USA: freq2 = 480; break;
   }
   
   samplesPerSine = sampleRate / freq1;
@@ -64,6 +67,26 @@ void stopTone() {
   AudioUnitUninitialize(toneUnit);
   AudioComponentInstanceDispose(toneUnit);
   toneUnit = nil;
+}
+
+void loopingRing() {
+    if (!playRinging) return;
+    
+    startTone(RING_USA, 2000);
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        loopingRing();
+    });
+}
+
+void startRinging(int dtmf, int durationMs) {
+    playRinging = true;
+    loopingRing();
+}
+
+void stopRinging() {
+    playRinging = false;
+    stopTone();
 }
 
 void initialize() {

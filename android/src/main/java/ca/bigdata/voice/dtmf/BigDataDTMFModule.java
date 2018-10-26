@@ -23,7 +23,7 @@ public class BigDataDTMFModule extends ReactContextBaseJavaModule {
 
   private ToneGenerator mToneGenerator= new ToneGenerator(
     AudioManager.STREAM_DTMF,
-    ToneGenerator.MAX_VOLUME / 3
+    ToneGenerator.MAX_VOLUME / 2
   );
 
   @Override
@@ -50,6 +50,8 @@ public class BigDataDTMFModule extends ReactContextBaseJavaModule {
     constants.put("DTMF_D", ToneGenerator.TONE_DTMF_D);
     constants.put("DTMF_STAR", ToneGenerator.TONE_DTMF_S);
     constants.put("DTMF_POUND", ToneGenerator.TONE_DTMF_P);
+    constants.put("DTMF_POUND", ToneGenerator.TONE_DTMF_P);
+    constants.put("RING_USA", ToneGenerator.TONE_CDMA_NETWORK_USA_RINGBACK);
     return constants;
   }
 
@@ -65,6 +67,16 @@ public class BigDataDTMFModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void stopTone() {
+    mToneGenerator.stopTone();
+  }
+
+  @ReactMethod
+  public void startRinging(int tone, int duration) {
+    mToneGenerator.startTone(tone, duration);
+  }
+
+  @ReactMethod
+  public void stopRinging() {
     mToneGenerator.stopTone();
   }
 }
